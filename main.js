@@ -72,9 +72,19 @@ function setTextColor(text, color) {
 
 function updateColorsHash(colors = []) {
     document.location.hash = colors.map(col => {
-      return col.toString().substring(1)
-    })
-    .join('-')
+            return col.toString().substring(1)
+        })
+        .join('-')
+}
+
+function getColorsFromHash() {
+    if (document.location.hash.length > 1) {
+        return document.location.hash
+            .substring(1)
+            .split('-')
+            .map(color => '#' + color)
+    }
+    return []
 }
 
 setRandomColors();
