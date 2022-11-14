@@ -38,6 +38,8 @@ function copyToClipboard(text) {
 }
 
 function setRandomColors() {
+    const colors = []
+
     cols.forEach((col) => {
         const isLocked = col.querySelector('i').classList.contains('fa-lock')
         const color = generateRandomeColor()
@@ -45,8 +47,11 @@ function setRandomColors() {
         const lock = col.querySelector('.fa-solid')
 
         if (isLocked) {
+            colors.push(text.textContent)
             return
         }
+
+        colors.push(color)
 
         text.textContent = color
         col.style.background = color
@@ -55,12 +60,21 @@ function setRandomColors() {
         setTextColor(text, color)
         setTextColor(lock, color)
     })
+
+    updateColorsHash(colors)
 }
 
 function setTextColor(text, color) {
     const luminance = chroma(color).luminance()
     text.style.color = luminance > 0.5 ? 'black' : 'white'
 
+}
+
+function updateColorsHash(colors = []) {
+    document.location.hash = colors.map(col => {
+      return col.toString().substring(1)
+    })
+    .join('-')
 }
 
 setRandomColors();
